@@ -1,0 +1,46 @@
+{
+	"customers" : [
+		{
+			"name" : "Allen Allbrook",
+			"thumbnail" : "/images/allen.jpg",
+			"email" : "A.Allbrook@calbroservices.com",
+			"company" : "Calbro Services",
+			"calculatedPriority" : "High"
+		},
+		{
+			"name" : "Allen Border",
+			"thumbnail" : "/images/allen.jpg",
+			"email" : "aborder@Petramco.com",
+			"company" : "Petramco",
+			"calculatedPriority" : "High"
+		},
+		{
+			"name" : "John Ward",
+			"thumbnail" : "/images/allen.jpg",
+			"email" : "jward@Petramco.com",
+			"company" : "Petramco",
+			"calculatedPriority" : "Medium"		
+		},
+		{
+			"name" : "Richard Gasquet",
+			"thumbnail" : "/images/allen.jpg",
+			"email" : "richardg@calbroservices.com",
+			"company" : "Calbro Services",
+			"calculatedPriority" : "Low"		
+		},
+		{
+			"name" : "Brian King",
+			"thumbnail" : "/images/allen.jpg",
+			"email" : "brian.king@calbroservices.com",
+			"company" : "Calbro Services",
+			"calculatedPriority" : "Low"			
+		},
+		{
+			"name" : "Greg Johnson",
+			"thumbnail" : "/images/allen.jpg",
+			"email" : "Greg.Johnson@acme.com",
+			"company" : "Acme Inc.",
+			"calculatedPriority" : "Medium"			
+		}
+	]
+}

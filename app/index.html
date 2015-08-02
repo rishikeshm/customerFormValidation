@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Customer Form Validation</title>
+		<!-- bower:css -->
+		<link rel="stylesheet" href="../bower_components/bootstrap-css-only/css/bootstrap.css" />
+		<link rel="stylesheet" href="../bower_components/ng-scrollbar/dist/ng-scrollbar.css" />
+		<!-- endbower -->
+		<link rel="stylesheet" href="css/main.css" />
+
+		<!-- bower:js -->
+		<script src="../bower_components/jquery/dist/jquery.js"></script>
+		<script src="../bower_components/angular/angular.js"></script>
+		<script src="../bower_components/bootstrap/dist/js/bootstrap.js"></script>
+		<script src="../bower_components/angular-animate/angular-animate.js"></script>
+		<script src="../bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+		<script src="../bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+		<script src="../bower_components/ng-scrollbar/dist/ng-scrollbar.js"></script>
+		<!-- endbower -->
+	</head>
+<body ng-app="MyApp" ng-controller="AppController">
+	<script type="text/ng-template" id="customTemplate.html">
+	  <a class="cursor drop-down-item" tabindex="-1">
+	  	<div>
+	  		<div class="drop-down-image"><img ng-src="{{match.model.thumbnail}}"></div>
+	      	
+	      <div class="cus-details">
+		     	<div bind-html-unsafe="match.model.name | typeaheadHighlight:query"></div>
+		     	<div style="display:block" bind-html-unsafe="match.model.email | typeaheadHighlight:query"></div>
+		    </div>
+	      
+	      <div class="cus-company" bind-html-unsafe="match.model.company | typeaheadHighlight:query"></div>
+	    </div>
+	  </a>
+	</script>
+	<div id="wrapper">
+		<form id="main-wrapper" name="customerForm" ng-submit="submitCustomerForm(customerForm.$valid)" novalidate>
+			<div class="container-fluid" id="main-body-scroll">
+				<div class="scrollme" ng-scrollbar is-bar-shown="flag" rebuild-on-resize>
+					<div class="row">
+						<div class="col col-md-12 col-sm-6 required-fields-text"><span>* Required fields</span></div>
+					</div>
+
+					<div class="row">
+						<div class="col col-md-12 col-sm-6 top-pad-20 bottom-pad-10"><span>Affected User(s)</span><span class="star">*</span></div>
+					</div>
+					<div class="row">
+						<div class="col col-md-5 col-sm-6">
+							<div class="form-group right-inner-addon" ng-class="{'has-error' : customerForm.affectedCustomer.$invalid && !customerForm.affectedCustomer.$pristine}">
+								<input autofocus name="affectedCustomer" class="form-control" ng-model="$parent.$parent.selectedCustomer" type="text" typeahead="customer as customer.name for customer in customers | filter:{name:$viewValue}" typeahead-min-length="3" typeahead-template-url="customTemplate.html" typeahead-append-to-body="false" required>
+								<i class="glyphicon glyphicon-remove" ng-click="$parent.$parent.resetAffectedCustomer()"></i>
+								<div ng-show="customerForm.affectedCustomer.$invalid && !customerForm.affectedCustomer.$pristine" class="help-block">Customer name is required.</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col col-md-12 col-sm-6 top-pad-20 bottom-pad-10"><span>Affected Company</span><span class="star">*</span></div>
+					</div>	
+					<div class="row">
+						<div class="col col-md-5 col-sm-6">
+							<div class="form-group right-inner-addon" ng-class="{'has-error' : customerForm.affectedCompany.$invalid && !customerForm.affectedCompany.$pristine}">
+								<input type="text" name="affectedCompany" class="form-control" ng-model="$parent.$parent.company" required>
+								<i class="glyphicon glyphicon-remove" ng-click="$parent.$parent.resetCompany()"></i>
+								<div ng-show="customerForm.affectedCompany.$invalid && !customerForm.affectedCompany.$pristine" class="help-block">Company name is required.</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col col-md-12 col-sm-6 top-pad-20 bottom-pad-10"><span>Incident Template</span></div>
+					</div>	
+					<div class="row">
+						<div class="col col-md-7 col-sm-7">
+								<div class="form-group incident-template-input-text-box">
+									<input type="text" name="incidentTemplate" class="form-control" placeholder="Start typing the name of a common issue ...">
+								</div>
+								<div class="btn-browse-div">
+									<button class="btn btn-default btn-browse" type="button">Browse</button>
+								</div>
+						</div>
+					</div>
+					
+					<div class="row">
+						<div class="col col-md-7 col-sm-7 top-pad-20 bottom-pad-10">
+							<label class="checkbox-inline">
+								<input type="checkbox" name="auto-assign-checkbox">
+							</label>
+							<span class="auto-assign-class">Auto-assign this task to the best fit group</span>
+						</div>
+					</div>
+					
+					<div class="row">
+						<div class="col col-md-12 col-sm-6 top-pad-30 bottom-pad-10"><span>Incident Title</span><span class="star">*</span></div>
+					</div>
+					<div class="row">
+						<div class="col col-md-5 col-sm-6">
+							<div class="form-group" ng-class="{'has-error' : customerForm.incidentTitle.$invalid && !customerForm.incidentTitle.$pristine}">
+								<input class="form-control" type="text" name="incidentTitle" ng-model="$parent.$parent.incidentTitle" required>
+								<div ng-show="customerForm.incidentTitle.$invalid && !customerForm.incidentTitle.$pristine" class="help-block">Incident title is required. {{customerForm.incidentTitle.$invalid}}</div>
+							</div>
+						</div>
+					</div>
+					
+					<div class="row">
+						<div class="col col-md-5 col-sm-6 top-pad-20 bottom-pad-10">
+							<span class="priority-span">Calculated Priority:</span>
+							<div class="priority-div" ng-class="{'high' : $parent.$parent.selectedCustomer.calculatedPriority == 'High', 'medium' : $parent.$parent.selectedCustomer.calculatedPriority == 'Medium', 'low' : $parent.$parent.selectedCustomer.calculatedPriority == 'Low'}" ng-show="$parent.$parent.selectedCustomer.calculatedPriority != '' && $parent.$parent.selectedCustomer.calculatedPriority != null">{{$parent.$parent.selectedCustomer.calculatedPriority}}</div>
+						</div>
+					</div>
+				</div> <!-- End ng-scrollbar -->
+		  </div> <!-- End container-fluid -->
+
+		  <div class="footer text-right">
+		  	<button type="button" class="btn btn-default btn-cancel">
+		      Cancel
+		  	</button>
+		    <button type="submit" class="btn btn-primary" ng-disabled="customerForm.$invalid">
+		      Save
+		  	</button>
+		  </div>
+	  </form>
+	</div> <!-- end wrapper -->
+
+	<script src="app.js"></script>
+	<script src="controllers/app-controller.js"></script>
+	<script src="services/rest.js"></script>
+	
+</body>
+</html>

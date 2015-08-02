@@ -1,0 +1,17 @@
+{
+  "name": "Sample",
+  "version": "0.0.0",
+  "authors": [
+    "Rishikesh Madake <rishikesh.madake@synerzip.com>"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "angular": "~1.4.3",
+    "bootstrap": "~3.3.5",
+    "angular-animate": "~1.4.3",
+    "angular-ui-router": "~0.2.15",
+    "bootstrap-css-only": "~3.3.4",
+    "angular-bootstrap": "~0.13.1",
+    "ng-scrollbar": "~0.0.8"
+  }
+}
