@@ -3,12 +3,24 @@ angular.module('MyApp')
 		$scope.customers = [];
 		$scope.company = '';
 		$scope.selectedCustomer = '';
+		/*
 		restApi.getCustomers()
 			.success(function(response, status) {
 				//console.log(JSON.stringify(response));
 				$scope.customers = angular.copy(response.customers);
 			})
 			.error(function(response, status) {
+				alert("Error retrieving customers from rest call !!!!");
+			});
+		*/
+
+		$scope.promise = restApi.getCustomers();
+		$scope.promise.then(
+			function(response, status) {
+				console.log('Promise resolved successfully -->>> ' + JSON.stringify(response));
+				$scope.customers = angular.copy(response.customers);
+			}, 
+			function(response, status) {
 				alert("Error retrieving customers from rest call !!!!");
 			});
 

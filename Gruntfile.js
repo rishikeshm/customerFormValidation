@@ -13,6 +13,17 @@ module.exports = function(grunt){
 			}
 		},
 
+		bowerBundle: {
+		  target: {
+		  
+		    // Point to the files that should be updated when
+		    // you run `grunt bowerBundle`
+		    src: [
+		      '<%= config.app %>/index.html',   // .html support...
+		    ]
+		  }
+		},
+
     watch: {
 			xyz: {
 				options: {
@@ -22,7 +33,7 @@ module.exports = function(grunt){
 			},
 			bower: {
         files: ['bower.json'],
-        tasks: ['wiredep']
+        tasks: ['bowerBundle']
       },
       js: {
         files: ['<%= config.app %>/**/*.js'],
@@ -47,7 +58,10 @@ module.exports = function(grunt){
 			server: {
 				options: {					
 					base: ['<%= config.app %>', '.'],			
-					open: '<%= config.app %>/index.html'
+					open: {
+						target: 'http://localhost:<%= connect.options.port %>',
+						appName: 'chrome'
+					}
 				}
 			}
 		}
@@ -57,10 +71,11 @@ module.exports = function(grunt){
 	grunt.loadNpmTasks('grunt-wiredep');
 	grunt.loadNpmTasks('grunt-contrib-connect');
 	grunt.loadNpmTasks('grunt-contrib-watch');
+	grunt.loadNpmTasks('grunt-bower-bundle');
 
 	grunt.registerTask('serve', 'Compile then start a server', function(target){
 		grunt.task.run([
-			      'wiredep',
+						'bowerBundle',
             'connect:server',
             'watch'
         ]);

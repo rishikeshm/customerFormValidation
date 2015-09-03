@@ -1,5 +1,5 @@
 angular.module('MyApp')
-	.factory('restApi', ['$http', function($http){
+	.factory('restApi', ['$http', '$q', function($http, $q){
 
 		var execute = function() {
 			return $http({
@@ -11,6 +11,10 @@ angular.module('MyApp')
 
 		return {
 			getCustomers: function() {
+
+				var q = $q.defer();
+
+				/*
 				var successCallback, errorCallback;
 
 				var returnObj = {
@@ -33,6 +37,16 @@ angular.module('MyApp')
 					});
 
 				return returnObj;
+				*/
+
+				execute()
+					.success(function(response, status){
+						q.resolve(response,status);
+					})
+					.error(function(response, status){
+						q.reject(response,status)
+					})
+				return q.promise;
 			}
 		};
 	}]);
